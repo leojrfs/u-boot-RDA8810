@@ -263,10 +263,11 @@
 #define CONFIG_ZERO_BOOTDELAY_CHECK
 
 #define CONFIG_EXTRA_ENV_SETTINGS	\
-	"modem_addr=80000000\0" \
 	"script_addr=81000000\0" \
-	"kernel_addr=82000000\0" \
-	"initrd_addr=83000000\0" \
+	"modem_addr=82000000\0" \
+	"factorydata_addr=83000000\0" \
+	"kernel_addr=84000000\0" \
+	"initrd_addr=85000000\0" \
 	"boot_device=mmc\0" \
 	""
 
