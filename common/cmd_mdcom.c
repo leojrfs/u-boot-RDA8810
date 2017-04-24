@@ -1164,6 +1164,22 @@ int do_mdcom_loadm(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 	return mdcom_load_from_mem(data, cal_en);
 }
 
+int do_mdcom_cal_loadm(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
+{
+	const u8 *data;
+	if (argc != 2)
+		return CMD_RET_USAGE;
+
+	data = (const u8 *)simple_strtoul(argv[1], NULL, 16);
+	if (rda_image_verify_header((const image_header_t *)data))
+		return CMD_RET_FAILURE;
+
+	if (factory_copy_from_mem(data))
+		return CMD_RET_FAILURE;
+
+	return CMD_RET_SUCCESS;
+}
+
 /*
  * Syntax:
  *  mdcom_loadf [cal_en]
@@ -1247,13 +1263,22 @@ U_BOOT_CMD(
 	mdcom_recv ,    6,    1,     do_mdcom_recv,
 	"send data to mdCom channels",
 	"Syntax:\n"
-	"    - mdcom_recv {channel} {adress} {size} [{timeout} {mode}]\n"
+	"    - mdcom_recv {channel} {address} {size} [{timeout} {mode}]\n"
 	"Parameters:\n"
 	"    - channel:  the mdcom channel number\n"
 	"    - adress:   the address of the buffer to receive data\n"
 	"    - size: 	 the size of the receiving buffer\n"
 	"    - timeout:  (optional) the timeout with unit ms\n"
 	"    - mode: 	 (optional) 0 - stream mode; else - dgram mode\n"
+);
+
+U_BOOT_CMD(
+	mdcom_cal_loadm ,    2,    1,     do_mdcom_cal_loadm,
+	"load modem calibration data from memory",
+	"Syntax:\n"
+	"    - mdcom_cal_loadm {address} \n"
+	"Parameters:\n"
+	"    - address:        the address of the buffer to receive data\n"
 );
 
 U_BOOT_CMD(

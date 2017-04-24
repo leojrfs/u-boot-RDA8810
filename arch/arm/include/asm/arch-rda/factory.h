@@ -75,6 +75,7 @@ int factory_update_modem_ext_calib(unsigned char *data);
 int factory_update_modem_factory(unsigned char *data);
 int factory_update_ap_factory(unsigned char *data);
 int factory_update_all(unsigned char *data, unsigned long size);
+int factory_copy_from_mem(const u8 *buf);
 
 
 /* Define a simple message function, for PC calib tool and u-boot.

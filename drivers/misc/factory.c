@@ -507,6 +507,22 @@ static int emmc_write_factory(u8 *buf)
 	return 0;
 }
 
+int factory_copy_from_mem(const u8 *buf)
+{
+	u8 *data = (u8 *)image_get_data((const image_header_t *)buf);
+	size_t size = image_get_data_size((const image_header_t *)buf);
+
+	if (factory_data_is_valid(data, size)) {
+		printf("Calibration data is valid, copying to memory\n");
+		memcpy(&factory_data, data, sizeof(factory_data));
+		factory_data_status = FACTORY_DATA_VALID;
+		return 0;
+	} else {
+		printf("Calibration data is invalid\n");
+		return 1;
+	}
+}
+
 int factory_load(void)
 {
 	int ret = 0;
